@@ -5629,6 +5629,24 @@ const defDistancia =
   defesaBase +
   efeitosDefesa.modificadorDistancia;
 
+  const btnTopo = {
+    width: 30,
+    height: 28,
+    boxSizing: "border-box",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 0,
+    background: "transparent",
+    border: "1px solid #8b5e1a55",
+    borderRadius: 4,
+    color: "#c8922a",
+    fontFamily: "'Cinzel',serif",
+    fontSize: 14,
+    lineHeight: 1,
+    cursor: "pointer",
+  };
+
   const inputDef = {
     background:"#0d070088", border:"1px solid #8b5e1a55", borderRadius:4,
     color:"#f0d8a0", fontFamily:"'Cinzel',serif", fontSize:13,
@@ -7314,10 +7332,8 @@ function renderizarAba(id) {
         @keyframes fadeIn     { from{opacity:0} to{opacity:1} }
         
         @media (max-width: 600px) {
-          .topoLinha { flex-direction: column; gap: 6px; }
-          .topoLinha .topoTitulo { order: 1; }
-          .topoLinha .topoBotoes { order: 2; flex-wrap: wrap; justify-content: center; }
-          .topoLinha .topoMsg { order: 3; min-width: 0 !important; min-height: 11px; text-align: center; }
+          .topoLinha .topoBotoes { gap: 3px !important; }
+          .topoLinha .topoTitulo { font-size: 18px !important; }
         }
 
         .navBarResponsiva {
@@ -7526,138 +7542,36 @@ function renderizarAba(id) {
 
         {/* ── TOPO ── */}
         <div style={s.topo}>
-          <div className="topoLinha" style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:4 }}>
-          <div className="topoMsg" style={{ fontSize:9, color: msgSalvo.startsWith("⚠") ? "#e06060" : (msgSalvo ? "#7ec87e" : "#3a2a10"), letterSpacing:1, fontFamily:"'Cinzel',serif", minWidth:60 }}>{msgSalvo}</div>
-          <div className="topoTitulo" style={s.topoTitulo}>⚔ T20 ⚔</div>
-          <div
-            className="topoBotoes"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 5,
-            }}
-          >
+          <div className="topoLinha" style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:6, marginBottom:2 }}>
 
+            {/* Esquerda: Rolador, Histórico, Cena */}
+            <div className="topoBotoes" style={{ display:"flex", gap:5 }}>
+              <button onClick={() => setRoladorAberto(true)} title="Rolador de dados" aria-label="Rolador de dados" style={btnTopo}>🎲</button>
+              <button onClick={() => setHistoricoAberto(true)} title="Histórico de rolagens" aria-label="Histórico de rolagens" style={btnTopo}>📜</button>
+              <button onClick={() => setModalCenaAberto(true)} title="Configurações da Cena" aria-label="Configurações da Cena" style={btnTopo}>⚙️</button>
+            </div>
 
-<label
-    title="Importar ficha (.json)"
-    aria-label="Importar ficha"
-    style={{
-      background: "transparent",
-      border: "1px solid #8b5e1a55",
-      borderRadius: 4,
-      color: "#c8922a",
-      fontFamily: "'Cinzel',serif",
-      fontSize: 13,
-      padding: "2px 6px",
-      cursor: "pointer",
-      display: "inline-flex",
-      alignItems: "center",
-    }}
-  >
-    ⬇
-    <input
-      type="file"
-      accept=".json,application/json"
-      onChange={importarFichaAtual}
-      style={{ display: "none" }}
-    />
-  </label>
+            {/* Centro: T20 + Perfil */}
+            <div style={{ flex:1, minWidth:0, textAlign:"center" }}>
+              <div className="topoTitulo" style={s.topoTitulo}>⚔ T20 ⚔</div>
+              <div style={{ ...s.topoSub, marginTop:0 }}>👤 {usuario}</div>
+            </div>
 
-
-
-        <button
-          onClick={exportarFichaAtual}
-          title="Exportar esta ficha"
-          aria-label="Exportar esta ficha"
-          style={{
-            background: "transparent",
-            border: "1px solid #8b5e1a55",
-            borderRadius: 4,
-            color: "#c8922a",
-            fontFamily: "'Cinzel',serif",
-            fontSize: 13,
-            padding: "2px 6px",
-            cursor: "pointer",
-          }}
-        >
-          ⬆
-        </button>
-
-
-        <button
-            onClick={() => setModalCenaAberto(true)}
-            title="Configurações da Cena"
-            aria-label="Configurações da Cena"
-            style={{
-              background: "transparent",
-              border: "1px solid #8b5e1a55",
-              borderRadius: 4,
-              color: "#c8922a",
-              fontFamily: "'Cinzel',serif",
-              fontSize: 13,
-              padding: "2px 6px",
-              cursor: "pointer",
-            }}
-      
-        >
-          ⚙️
-        </button>
-        <button
-          onClick={() => setHistoricoAberto(true)}
-          title="Histórico de rolagens"
-          aria-label="Histórico de rolagens"
-          style={{
-            background: "transparent",
-            border: "1px solid #8b5e1a55",
-            borderRadius: 4,
-            color: "#c8922a",
-            fontFamily: "'Cinzel',serif",
-            fontSize: 13,
-            padding: "2px 6px",
-            cursor: "pointer",
-          }}
-        >
-          📜
-        </button>
-
-         <button
-        onClick={() => setRoladorAberto(true)}
-        title="Abrir rolador de dados"
-        aria-label="Abrir rolador de dados"
-        style={{
-          background: "transparent",
-          border: "1px solid #8b5e1a55",
-          borderRadius: 4,
-          color: "#c8922a",
-          fontFamily: "'Cinzel',serif",
-          fontSize: 13,
-          padding: "2px 6px",
-          cursor: "pointer",
-        }}
-        >
-          🎲
-        </button>
-
-        <button
-          onClick={sairConta}
-          style={{
-            background: "transparent",
-            border: "1px solid #3a2a10",
-            borderRadius: 4,
-            color: "#7a5020",
-            fontFamily: "'Cinzel',serif",
-            fontSize: 8,
-            letterSpacing: 1,
-            padding: "3px 7px",
-            cursor: "pointer",
-          }}
-        >
-          SAIR
-        </button>
-      </div>
+            {/* Direita: Importar, Exportar, Sair */}
+            <div className="topoBotoes" style={{ display:"flex", gap:5 }}>
+              <label title="Importar ficha (.json)" aria-label="Importar ficha" style={btnTopo}>
+                ⬇
+                <input type="file" accept=".json,application/json" onChange={importarFichaAtual} style={{ display:"none" }} />
+              </label>
+              <button onClick={exportarFichaAtual} title="Exportar esta ficha" aria-label="Exportar esta ficha" style={btnTopo}>⬆</button>
+              <button onClick={sairConta} title="Sair" style={{ ...btnTopo, width:"auto", padding:"0 7px", fontSize:8, letterSpacing:1, color:"#7a5020", border:"1px solid #3a2a10" }}>SAIR</button>
+            </div>
           </div>
-          <div style={s.topoSub}>👤 {usuario}</div>
+
+          {/* Mensagem de salvamento (linha fina) */}
+          <div className="topoMsg" style={{ minHeight:11, textAlign:"center", fontSize:9, letterSpacing:1, fontFamily:"'Cinzel',serif", color: msgSalvo.startsWith("⚠") ? "#e06060" : "#7ec87e" }}>
+            {msgSalvo}
+          </div>
           {ficha.nome && <div style={s.topoNome}>✦ {ficha.nome} ✦</div>}
           {(ficha.classes||[]).some(c => c.nome) && (
             <div style={{ ...s.topoNome, fontSize:11, color:"#7a5020", marginTop:1 }}>
