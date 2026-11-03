@@ -7,6 +7,18 @@ import { useState, useEffect, useRef } from "react";
 const VERSAO_DADOS_FICHA = 2;
 
 const ATRIBUTOS = ["FOR", "DES", "CON", "INT", "SAB", "CAR"];
+const ALINHAMENTOS = [
+  "Leal e Bondoso (LB)",
+  "Neutro e Bondoso (NB)",
+  "Caótico e Bondoso (CB)",
+  "Leal e Neutro (LN)",
+  "Neutro (N)",
+  "Caótico e Neutro (CN)",
+  "Leal e Maligno (LM)",
+  "Neutro e Maligno (NM)",
+  "Caótico e Maligno (CM)",
+];
+
 const ATRIB_ICONES = { FOR:"⚔️", DES:"🏹", CON:"🛡️", INT:"📚", SAB:"🌿", CAR:"👑" };
 
 const PERICIAS = [
@@ -276,6 +288,7 @@ const regraPericiaVazia = () => ({
 function criarFichaInicial() {
   return {
     nome: "",
+    alinhamento: "",
     raca: "",
     classe: "",
     classes: [classeVazia()],
@@ -5681,13 +5694,31 @@ function renderizarAba(id) {
                   }
                 />
               </div>
-              <div style={{ marginBottom:10 }}>
-                <span style={s.label}>Nome do Personagem</span>
-                <input style={s.input} value={ficha.nome} placeholder="Digite o nome..."
-                  onChange={e => set("nome", e.target.value)}
-                  onFocus={e => e.target.style.borderColor="#e8a020"}
-                  onBlur={e =>  e.target.style.borderColor="#8b5e1a"} />
+              <div style={{ display:"grid", gridTemplateColumns:"5fr 4fr", gap:10, marginBottom:10 }}>
+                <div>
+                  <span style={s.label}>Nome do Personagem</span>
+                  <input style={s.input} value={ficha.nome} placeholder="Digite o nome..."
+                    onChange={e => set("nome", e.target.value)}
+                    onFocus={e => e.target.style.borderColor="#e8a020"}
+                    onBlur={e =>  e.target.style.borderColor="#8b5e1a"} />
+                </div>
+                <div>
+                  <span style={s.label}>Alinhamento</span>
+                  <select
+                    value={ficha.alinhamento}
+                    onChange={e => set("alinhamento", e.target.value)}
+                    style={{ ...s.input, cursor:"pointer" }}
+                    onFocus={e => e.target.style.borderColor="#e8a020"}
+                    onBlur={e =>  e.target.style.borderColor="#8b5e1a"}
+                  >
+                    <option value="" style={{ background:"#1c0e00" }}>Selecione...</option>
+                    {ALINHAMENTOS.map(a => (
+                      <option key={a} value={a} style={{ background:"#1c0e00" }}>{a}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
+
               <div style={{ ...s.grid2, marginBottom:10 }}>
                 <div>
                   <span style={s.label}>Raça</span>
@@ -6682,10 +6713,6 @@ function renderizarAba(id) {
     case 2: //Perícias//
       return (
         <>
-          <HistoricoRolagens
-            rolagens={historicoRolagens}
-            onLimpar={limparHistoricoRolagens}
-          />
           {/* Legenda */}
   <div style={{ display:"flex", gap:6, flexWrap:"wrap", padding:"8px 12px 4px", fontFamily:"'Cinzel',serif", fontSize:9, letterSpacing:1, color:"#7a5020" }}>
     <span>TOTAL =</span>
@@ -7551,10 +7578,25 @@ function renderizarAba(id) {
               <button onClick={() => setModalCenaAberto(true)} title="Configurações da Cena" aria-label="Configurações da Cena" style={btnTopo}>⚙️</button>
             </div>
 
-            {/* Centro: T20 + Perfil */}
+            {/* Centro: T20 */}
             <div style={{ flex:1, minWidth:0, textAlign:"center" }}>
               <div className="topoTitulo" style={s.topoTitulo}>⚔ T20 ⚔</div>
-              <div style={{ ...s.topoSub, marginTop:0 }}>👤 {usuario}</div>
+
+              {/* Mensagem de salvamento (pisca logo abaixo do título) */}
+              <div
+                style={{
+                  minHeight: 0,
+                  textAlign: "center",
+                  fontSize: 8,
+                  letterSpacing: 1,
+                  fontFamily: "'Cinzel',serif",
+                  color: msgSalvo.startsWith("⚠") ? "#e06060" : "#7ec87e",
+                  marginTop: 1,
+                  animation: msgSalvo ? "pvPulse 1.2s ease-in-out infinite" : "none",
+                }}
+              >
+                {msgSalvo}
+              </div>
             </div>
 
             {/* Direita: Importar, Exportar, Sair */}
@@ -7567,19 +7609,6 @@ function renderizarAba(id) {
               <button onClick={sairConta} title="Sair" style={{ ...btnTopo, width:"auto", padding:"0 7px", fontSize:8, letterSpacing:1, color:"#7a5020", border:"1px solid #3a2a10" }}>SAIR</button>
             </div>
           </div>
-
-          {/* Mensagem de salvamento (linha fina) */}
-          <div className="topoMsg" style={{ minHeight:11, textAlign:"center", fontSize:9, letterSpacing:1, fontFamily:"'Cinzel',serif", color: msgSalvo.startsWith("⚠") ? "#e06060" : "#7ec87e" }}>
-            {msgSalvo}
-          </div>
-          {ficha.nome && <div style={s.topoNome}>✦ {ficha.nome} ✦</div>}
-          {(ficha.classes||[]).some(c => c.nome) && (
-            <div style={{ ...s.topoNome, fontSize:11, color:"#7a5020", marginTop:1 }}>
-              {ficha.raca && `${ficha.raca} · `}
-              {(ficha.classes||[]).filter(c=>c.nome).map(c => `${c.nome} ${c.nivel}`).join(" / ")}
-              {" · "}Nível {nivelTotal}
-            </div>
-          )}
         </div>
 
         {/* ── CONTEÚDO MOBILE ── */}
