@@ -3782,7 +3782,6 @@ function CardCondicao({ cond, rodadaAtual, onRemove, onChangeName, onChange, ocu
       )}
       <div style={{ display:"grid", gridTemplateColumns:"1fr 28px 28px", gap:5, alignItems:"center", marginBottom:6, opacity: expirada ? 0.55 : 1 }}>
         <div style={{ background:dados?`linear-gradient(135deg,${dados.cor}11,#0d070088)`:"#0d070088", border:`1px solid ${expirada ? "#5a1a1a" : (dados?dados.cor+"55":"#8b5e1a55")}`, borderRadius:6, padding:"0 4px", display:"flex", alignItems:"center", gap:6, minHeight:34 }}>
-          {dados && <span style={{ fontSize:14, flexShrink:0 }}>{dados.icone}</span>}
           <select value={cond.nome} onChange={e => onChangeName(e.target.value)}
             style={{ flex:1, background:"transparent", border:"none", outline:"none", color:dados?"#f0d8a0":"#7a5020", fontFamily:dados?"'IM Fell English',Georgia,serif":"'Cinzel',serif", fontSize:dados?13:11, cursor:"pointer", padding:"6px 2px" }}>
             <option value="" style={{ background:"#1c0e00" }}>Selecione a condição...</option>
@@ -5694,7 +5693,7 @@ function renderizarAba(id) {
                   }
                 />
               </div>
-              <div style={{ display:"grid", gridTemplateColumns:"5fr 4fr", gap:10, marginBottom:10 }}>
+              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:10 }}>
                 <div>
                   <span style={s.label}>Nome do Personagem</span>
                   <input style={s.input} value={ficha.nome} placeholder="Digite o nome..."
