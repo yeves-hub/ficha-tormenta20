@@ -8,15 +8,15 @@ const VERSAO_DADOS_FICHA = 2;
 
 const ATRIBUTOS = ["FOR", "DES", "CON", "INT", "SAB", "CAR"];
 const ALINHAMENTOS = [
-  "Leal e Bondoso (LB)",
-  "Neutro e Bondoso (NB)",
-  "Caótico e Bondoso (CB)",
-  "Leal e Neutro (LN)",
-  "Neutro (N)",
-  "Caótico e Neutro (CN)",
-  "Leal e Maligno (LM)",
-  "Neutro e Maligno (NM)",
-  "Caótico e Maligno (CM)",
+  "Leal e Bom",
+  "Neutro e Bom",
+  "Caótico e Bom",
+  "Leal e Neutro",
+  "Neutro",
+  "Caótico e Neutro",
+  "Leal e Mal",
+  "Neutro e Mal",
+  "Caótico e Mal",
 ];
 
 const ATRIB_ICONES = { FOR:"⚔️", DES:"🏹", CON:"🛡️", INT:"📚", SAB:"🌿", CAR:"👑" };
