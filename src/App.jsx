@@ -348,6 +348,7 @@ function criarFichaInicial() {
     pericias: criarPericiasIniciais(),
 
     armas: [armaVazia()],
+    dinheiro: { TC: 0, TS: 0, TO: 0, TL: 0 },
     itens: [itemVazio()],
 
     anotacoes: "",
@@ -4918,6 +4919,12 @@ function normalizarFicha(dados) {
     armas:     lista(dados.armas),
     armaduras: lista(dados.armaduras),
     itens:     lista(dados.itens),
+    dinheiro: {
+      TC: Math.max(0, Number(dados.dinheiro?.TC) || 0),
+      TS: Math.max(0, Number(dados.dinheiro?.TS) || 0),
+      TO: Math.max(0, Number(dados.dinheiro?.TO) || 0),
+      TL: Math.max(0, Number(dados.dinheiro?.TL) || 0),
+    },
     poderes:   lista(dados.poderes),
     condicoes: lista(dados.condicoes),
     magias:    lista(dados.magias),
@@ -5396,6 +5403,23 @@ export default function App() {
     return { ...f, cena: novaCena, condicoes };
   });
  // NOVA FUNÇÃO
+  const setDinheiro = (k, v) =>
+    setFicha(f => ({
+      ...f,
+      dinheiro: {
+        ...(f.dinheiro || {}),
+        [k]: v === "" ? 0 : Math.max(0, Number(v) || 0),
+      },
+    }));
+
+  const totalTibares = Math.round(
+    (
+      (Number(ficha.dinheiro?.TC) || 0) * 0.1 +
+      (Number(ficha.dinheiro?.TS) || 0) * 1 +
+      (Number(ficha.dinheiro?.TO) || 0) * 10 +
+      (Number(ficha.dinheiro?.TL) || 0) * 100
+    ) * 10
+  ) / 10;
 
   const modFor      = calcMod(ficha.atributos["FOR"]);
   const modDes      = calcMod(ficha.atributos["DES"]);
@@ -7239,6 +7263,47 @@ function renderizarAba(id) {
             </Secao>
 
             <DiamondDivider />
+            
+            <Secao icone="💰" titulo="Dinheiro">
+              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, marginBottom:12 }}>
+                {[
+                  { k:"TC", label:"Tibar de Cobre",  ic:"🪙", val:"0,1" },
+                  { k:"TS", label:"Tibar (T$)",      ic:"🥈", val:"1"   },
+                  { k:"TO", label:"Tibar de Ouro",   ic:"🥇", val:"10"  },
+                  { k:"TL", label:"Tibar de Lumina", ic:"💎", val:"100" },
+                ].map(({ k, label, ic, val }) => (
+                  <div key={k} style={{ background:"linear-gradient(135deg,#22120066,#180d0066)", border:"1px solid #8b5e1a55", borderRadius:8, padding:"8px 10px" }}>
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:6, gap:6 }}>
+                      <span style={{ fontFamily:"'Cinzel',serif", fontSize:9, letterSpacing:1, color:"#c8922a" }}>{ic} {label}</span>
+                      <span style={{ fontFamily:"'Cinzel',serif", fontSize:8, color:"#7a5020", whiteSpace:"nowrap" }}>= {val} T$</span>
+                    </div>
+                    <input
+                      type="number"
+                      min="0"
+                      value={(ficha.dinheiro?.[k] || 0) === 0 ? "" : ficha.dinheiro?.[k]}
+                      placeholder="0"
+                      onChange={e => setDinheiro(k, e.target.value)}
+                      style={{ ...s.input, textAlign:"center", fontSize:15, color:"#e8a020" }}
+                      onFocus={e => e.target.style.borderColor="#e8a020"}
+                      onBlur={e => e.target.style.borderColor="#8b5e1a"}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:10, padding:"12px 14px", border:"1px solid #c8922a", borderRadius:8, background:"#e8a02011" }}>
+                <div>
+                  <div style={{ fontFamily:"'Cinzel',serif", fontSize:9, letterSpacing:2, color:"#7a5020" }}>TOTAL EM TIBARES</div>
+                  <div style={{ fontFamily:"'Cinzel',serif", fontSize:8, color:"#7a5020", marginTop:3 }}>Valor convertido de todas as moedas</div>
+                </div>
+                <div style={{ fontFamily:"'Cinzel Decorative','Cinzel',serif", fontSize:24, fontWeight:900, color:"#e8a020", whiteSpace:"nowrap" }}>
+                  {totalTibares} <span style={{ fontSize:14, color:"#c8922a" }}>T$</span>
+                </div>
+              </div>
+            </Secao>
+
+<DiamondDivider />
+
 
             <Secao icone="🎒" titulo="Itens & Equipamentos">
               <div style={{ display:"grid", gridTemplateColumns:"1fr 40px 40px 25px 25px", gap:4, marginBottom:6, fontFamily:"'Cinzel',serif", fontSize:8, letterSpacing:1, color:"#7a5020", textTransform:"uppercase", borderBottom:"1px solid #3a2a1066", paddingBottom:5 }}>
