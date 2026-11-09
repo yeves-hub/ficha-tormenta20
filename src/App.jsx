@@ -7267,10 +7267,10 @@ function renderizarAba(id) {
             <Secao icone="💰" titulo="Dinheiro">
               <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, marginBottom:12 }}>
                 {[
-                  { k:"TC", label:"Tibar de Cobre",  ic:"🪙", val:"0,1" },
+                  { k:"TC", label:"T. Cobre (TC)",  ic:"🪙", val:"0,1" },
                   { k:"TS", label:"Tibar (T$)",      ic:"🥈", val:"1"   },
-                  { k:"TO", label:"Tibar de Ouro",   ic:"🥇", val:"10"  },
-                  { k:"TL", label:"Tibar de Lumina", ic:"💎", val:"100" },
+                  { k:"TO", label:"T. Ouro (TO)",   ic:"🥇", val:"10"  },
+                  { k:"TL", label:"T. Lumina (TL)", ic:"💎", val:"100" },
                 ].map(({ k, label, ic, val }) => (
                   <div key={k} style={{ background:"linear-gradient(135deg,#22120066,#180d0066)", border:"1px solid #8b5e1a55", borderRadius:8, padding:"8px 10px" }}>
                     <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:6, gap:6 }}>
